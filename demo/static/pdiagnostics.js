@@ -5,7 +5,7 @@ Init();
 
 
 $.ajax({
-  url: "data/image_ori",
+  url: "static/data/image_ori",
   success: function(data){
       debugger;
      $(data).find("td > a").each(function(){
