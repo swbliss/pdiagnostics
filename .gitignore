@@ -1,10 +1,13 @@
+.DS_Store
+
 CBM_optimizer
 Smart PMS.pptx
 deep_diagnostics
 python code
 
-demo/lib
-demo/lib/black-dashboard-pro/node_modules
-demo/lib/black-dashboard-pro/docs
-demo/lib/black-dashboard-pro/examples
-demo/lib/black-dashboard-pro/assets
+demo/lib/bootstrap-4.1.3
+demo/lib/jquery-3.3.1.js
+demo/lib/black-dashboard-pro/*
+!demo/lib/black-dashboard-pro/assets
+demo/lib/black-dashboard-pro/assets/*
+!demo/lib/black-dashboard-pro/assets/scss
