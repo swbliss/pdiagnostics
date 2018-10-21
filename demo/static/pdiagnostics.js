@@ -1,25 +1,21 @@
-var prevTab = 'tab1';
-var currTab;
-
 function Init() {
-    $("#tab1-conatiner").show();
 }
 
 Init();
 
-$("nav .nav-tab").on("click", function(){
-    var activeTab = $(".nav-item.active");
-    activeTab.removeClass("active");
 
-    var clickedTab = $(this);
-    clickedTab.parent().addClass("active");
-    currTab = clickedTab.attr('id');
-
-    $('#' + prevTab + '-container').hide();
-    $('#' + currTab + '-container').show();
-
-    prevTab = currTab;
+$.ajax({
+  url: "data/image_ori",
+  success: function(data){
+      debugger;
+     $(data).find("td > a").each(function(){
+        if(openFile($(this).attr("href"))){
+            fileNames.push($(this).attr("href"));
+        }
+     });
+  }
 });
+
 
 
 // var skins = {
