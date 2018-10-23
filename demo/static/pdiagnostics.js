@@ -3,18 +3,72 @@ function Init() {
 
 Init();
 
+// jQuery.get('/static/data', function(data) {
+//     debugger;
+// });
+
+let dataPrefix = '/static/data/';
+let imageOriPrefix = dataPrefix + 'image_ori/';
+var oriImages = [];
+var newImages = [];
+// var image = {
+//     img: "",
+//     name: "",
+//     section: -1,
+//     route: -1,
+//     date: "",
+//     platform: -1,
+//     size: "",
+//     state: ""
+// };
 
 $.ajax({
-  url: "static/data/image_ori",
-  success: function(data){
-      debugger;
-     $(data).find("td > a").each(function(){
-        if(openFile($(this).attr("href"))){
-            fileNames.push($(this).attr("href"));
+    url: dataPrefix + "image_ori/list.txt",
+    success: function(data) {
+        var names = data.trim().split('\n');
+        for (i in names) {
+            getImageMeta(names[i]);
         }
-     });
-  }
+    }
 });
+
+function getImageMeta(name) {
+    var meta = name.split('.')[0] + '.meta.txt';
+    $.ajax({
+        url: imageOriPrefix + meta,
+        success: function(data) {
+            oriImages.push({
+                img: imageOriPrefix + name,
+                name: name,
+                state: data.trim()
+            })
+            addRow([1, '<img src="' + imageOriPrefix + name + '">', name, -1, -1, 2018-10-12, -1, '100X200', data.trim()])
+        },
+    });
+}
+
+function addRow(data) {
+    var t = $('#datatable').DataTable();
+    t.row.add(data).draw(false);
+}
+
+function initDatatable() {
+    var table = $('#datatable').DataTable( {
+        columnDefs: [
+            { sortable: false, "class": "index", targets: 0 },
+            { sortable: false, targets: 1 }
+        ],
+        order: [[ 2, 'asc' ]]
+    } );
+
+    table.on( 'order.dt search.dt', function () {
+        table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();
+}
+
+initDatatable();
 
 
 
