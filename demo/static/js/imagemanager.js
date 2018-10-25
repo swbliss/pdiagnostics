@@ -1,6 +1,4 @@
 let dataPrefix = '/static/data/';
-var oriImages = [];
-var newImages = [];
 
 function getImage(target) {
     $.ajax({
@@ -23,26 +21,22 @@ function addTableRow(target, name) {
     $.ajax({
         url: imagePrefix + meta,
         success: function(data) {
-            oriImages.push({
-                img: imagePrefix + name + '.jpg',
-                name: name,
-                state: data.trim()
-            })
+            var m = data.trim().split(',')
 
             let button = "<button type='button' rel='tooltip' \
-                                 data-placement='top' title='' \
-                                 class='btn btn-link btn-icon btn-sm btn-neutral' \
-                                 onClick='" + (target=='ori' ? "onDelete(this)" : "onAdd(this)") +
-                                 "'> <i class='tim-icons " +
-                                 (target=='ori' ? 'icon-trash-simple' : 'icon-simple-add') +
-                                 "'></i></button>"
+                            data-placement='top' title='' \
+                            class='btn btn-link btn-icon btn-sm btn-neutral' \
+                            onClick='" + (target=='ori' ? "onDelete(this)" : "onAdd(this)") +
+                            "'> <i class='tim-icons " +
+                            (target=='ori' ? 'icon-trash-simple' : 'icon-simple-add') +
+                            "'></i></button>"
 
             if (target == "ori") {
                 addRow(tableid, [1, '<img src="' + imagePrefix + name + '.jpg">', name,
-                    -1, -1, 2018-10-12, -1, data.trim(), button])
+                    m[0], m[1], m[2], m[3], m[4], button])
             } else {
                 addRow(tableid, ['<img src="' + imagePrefix + name + '.jpg" style="height:30px">', name,
-                    -1, -1, 2018-10-12, -1, data.trim(), button])
+                    m[0], m[1], m[2], m[3], m[4], button])
             }
         },
     });
@@ -128,6 +122,7 @@ function showNotification(from, align, msg) {
 
 function toggleNewModal() {
     $('#myModal').modal();
+    $('#datatable2').DataTable().draw();
 }
 
 function Init() {

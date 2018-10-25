@@ -1,7 +1,17 @@
 from flask import Flask, render_template, send_from_directory, url_for
 import os
+import json
 
 
+#################### GLOBAL ####################
+app = Flask(__name__)
+
+@app.route('/test')
+def test():
+	return render_template('starter.html')
+
+
+############### TAB:imagemanager ###############
 # If to_new is true, it means deleting (ori->new)
 def move_img(filename, to_new):
 	data_dir = os.path.dirname(os.path.realpath(__file__)) + '/static/data/'
@@ -30,13 +40,7 @@ def move_img(filename, to_new):
 	return ''
 
 
-app = Flask(__name__)
-
-@app.route('/test')
-def test():
-	return render_template('starter.html')
-
-@app.route('/image-manager')
+@app.route('/imagemanager')
 def image_manager():
 	return render_template('imagemanager.html')
 
@@ -47,6 +51,20 @@ def delete_img(filename):
 @app.route('/add_img/<filename>/', methods=['GET', 'POST'])
 def add_img(filename):
 	return move_img(filename, False)
+
+
+########### TAB:trainingsetmanager #############
+def list_trainingset():
+	sets = os.listdir('static/data/training')
+	
+
+@app.route('/trainingsetmanager')
+def trainingset_manager():
+	return render_template('trainingsetmanager.html')
+
+@app.route('/trainingset', methods=['GET'])
+def trainingset():
+	return list_trainingset()
 
 
 if __name__ == "__main__":

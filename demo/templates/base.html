@@ -41,10 +41,22 @@
 
     <div class="sidebar-wrapper">
       <ul class="nav">
-        <li class="nav-item active">
+        <li class="nav-item">
+            <a class="nav-link" href="/imagemanager">
+                <i class="tim-icons icon-chart-pie-36"></i>
+                <p>Image Manager</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/trainingsetmanager">
+                <i class="tim-icons icon-chart-pie-36"></i>
+                <p>Trainingset Manager</p>
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="#0">
                 <i class="tim-icons icon-chart-pie-36"></i>
-                <p>ImageManager</p>
+                <p>Trainingset Manager</p>
             </a>
         </li>
          <!-- your sidebar here -->
@@ -172,7 +184,6 @@
 
 </div>
 
-
 <!--   Core JS Files   -->
 <script src='static/lib/black-dashboard-pro/assets/js/core/jquery.min.js' type="text/javascript"></script>
 <script src='static/lib/black-dashboard-pro/assets/js/core/popper.min.js ' type="text/javascript"></script>
@@ -219,5 +230,17 @@
 <script src='static/lib/black-dashboard-pro/assets/js/black-dashboard.js' type="text/javascript"></script></body>
 <!-- Custom JS -->
 {% block custom_js %}{% endblock %}
+
+<script>
+    var lis = $($('.sidebar-wrapper').children()[0]).children();
+    switch(window.location.pathname){
+        case '/imagemanager':
+            $(lis[0]).addClass('active');
+            break;
+        case '/trainingsetmanager':
+            $(lis[1]).addClass('active');
+            break;
+    }
+</script>
 
 </html>
