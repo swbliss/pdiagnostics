@@ -32,6 +32,10 @@ def move_img(filename, to_new):
 
 app = Flask(__name__)
 
+@app.route('/test')
+def test():
+	return render_template('starter.html')
+
 @app.route('/image-manager')
 def image_manager():
 	return render_template('imagemanager.html')
