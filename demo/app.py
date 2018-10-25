@@ -54,17 +54,28 @@ def add_img(filename):
 
 
 ########### TAB:trainingsetmanager #############
-def list_trainingset():
-	sets = os.listdir('static/data/training')
-	
+def trainingset_info():
+	prefix = 'static/data/training/'
+	res = {}	# trainingset:images(array)
 
+	sets = os.listdir(prefix)
+	for trainingset in sets:
+		res[trainingset] = []
+		for f in os.listdir(prefix + trainingset):
+			if f[-8:] == "meta.txt":
+				toks = open(prefix + trainingset + '/' + f)\
+						.readline().strip().split(',')
+				toks.insert(0, f.split('.')[0])
+				res[trainingset].append(toks)
+	return res
+	
 @app.route('/trainingsetmanager')
 def trainingset_manager():
 	return render_template('trainingsetmanager.html')
 
 @app.route('/trainingset', methods=['GET'])
 def trainingset():
-	return list_trainingset()
+	return json.dumps(trainingset_info())
 
 
 if __name__ == "__main__":

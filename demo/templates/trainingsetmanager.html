@@ -18,18 +18,22 @@
 	  <div class="card-header">
         <h4 class="card-title">Deep Diagnostics Training Sets</h4>
         <p class="card-category">select set or create new one</p>
+		<!-- <button type="button" rel="tooltip" data-placement="top" title="" class="btn btn-link btn-icon btn-sm btn-neutral" onclick="onDelete(this)"> <i class="tim-icons icon-trash-simple"></i></button> -->
+  		<button type="button" class="btn btn-link btn-icon btn-neutral" onClick="toggleNewModal()" style="position:absolute; top:15px; right:15px;">
+			<i class="tim-icons icon-simple-add text-info"></i>
+  		</button>
       </div>
       <div class="card-body">
         <div class="table-full-width table-responsive">
 		  <div id="datatable_wrapper" class="dataTables_wrapper dt-bootstrap4">
 		     <div class="row">
-		  	  <div class="col-sm-12">
+		  	  <div class="col-sm-12" style='padding-left:30px'>
 		  		 <table id="datatable" class="table dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="">
 		  			<thead>
 		  			   <tr role="row">
-		  				  <th aria-controls="datatable" rowspan="1" colspan="1">#</th>
+		  				  <th aria-controls="datatable" rowspan="1" colspan="1" width="15px">#</th>
 		  				  <th aria-controls="datatable" rowspan="1" colspan="1">Name</th>
-		  				  <th aria-controls="datatable" rowspan="1" colspan="1">Labels</th>
+		  				  <th aria-controls="datatable" rowspan="1" colspan="1" width="30%">Labels</th>
 		  			   </tr>
 		  			</thead>
 		  			<tbody>
@@ -37,11 +41,7 @@
 		  		 </table>
 		  	  </div>
 		     </div>
-		     <div class="row">
-		  	  <div class="col-sm-12" style="text-align: right">
-		  		  <button class="btn btn-primary btn-sm" onClick="toggleNewModal()">New</button>
-		  	  </div>
-		     </div>
+
 		  </div>
         </div>
       </div>
@@ -51,12 +51,13 @@
   <div class="col-lg-8">
     <div class="card card-chart">
       <div class="card-header">
-        <h5 class="card-category">Daily Sales</h5>
-        <h3 class="card-title"><i class="tim-icons icon-delivery-fast text-info"></i> 3,500€</h3>
+        <h5 id="summary-title" class="card-category">trainingset</h5>
+        <h3 class="card-title"><i class="tim-icons icon-chart-bar-32 text-info"></i>
+			<span id="summary-count" style="font-weight: 500">100</span>  Labels</h3>
       </div>
       <div class="card-body">
         <div class="chart-area"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
-          <canvas id="CountryChart" width="794" height="440" class="chartjs-render-monitor" style="display: block; height: 220px; width: 397px;"></canvas>
+          <canvas id="label-chart" width="794" height="440" class="chartjs-render-monitor" style="display: block; height: 220px; width: 397px;"></canvas>
         </div>
       </div>
     </div>
