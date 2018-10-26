@@ -89,10 +89,10 @@ def trainingset_list():
 	return json.dumps(trainingset_info().keys())
 
 
-########### TAB:itemoptimizer #############
-@app.route('/itemoptimizer')
-def itemoptimizer():
-	return render_template('itemoptimizer.html')
+########### TAB:prognostics #############
+@app.route('/prognostics')
+def prognostics():
+	return render_template('prognostics.html')
 
 
 if __name__ == "__main__":
