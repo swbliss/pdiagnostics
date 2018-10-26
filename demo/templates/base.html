@@ -54,9 +54,9 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#0">
+            <a class="nav-link" href="/diagnostics">
                 <i class="tim-icons icon-chart-pie-36"></i>
-                <p>Trainingset Manager</p>
+                <p>Deep Diagnostics</p>
             </a>
         </li>
          <!-- your sidebar here -->
@@ -82,7 +82,7 @@
             <span class="navbar-toggler-bar bar3"></span>
           </button>
         </div>
-        <a class="navbar-brand" href="javascript:void(0)">ImageManager</a>
+        <a id="navbar-title" class="navbar-brand" href="javascript:void(0)">ImageManager</a>
       </div>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -236,10 +236,17 @@
     switch(window.location.pathname){
         case '/imagemanager':
             $(lis[0]).addClass('active');
+            $("#navbar-title").text('Image Manager');
             break;
         case '/trainingsetmanager':
             $(lis[1]).addClass('active');
+            $("#navbar-title").text('Trainingset Manager');
             break;
+        case '/diagnostics':
+            $(lis[2]).addClass('active');
+            $("#navbar-title").text('Deep Diagnostics');
+            break;
+
     }
 </script>
 

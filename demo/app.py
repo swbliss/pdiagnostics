@@ -78,5 +78,11 @@ def trainingset():
 	return json.dumps(trainingset_info())
 
 
+########### TAB:diagnostics #############
+@app.route('/diagnostics')
+def diagnostics():
+	return render_template('diagnostics.html')
+
+
 if __name__ == "__main__":
 	app.run(host='0.0.0.0', port=9021, debug=True)

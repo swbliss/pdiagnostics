@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+
+{% block custom_css %}
+	<link href="static/css/diagnostics.css" rel="stylesheet" >
+{% endblock %}
+
+
+{% block custom_js %}
+	<script src='static/js/diagnostics.js' type="text/javascript"></script>
+{% endblock %}
+
+
+{% block content %}
+<div class="row">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">Training Set</h4>
+      </div>
+      <div class="card-body">
+        <div class="btn-group bootstrap-select">
+			<button type="button" class="dropdown-toggle bs-placeholder btn btn-primary" data-toggle="dropdown" role="button" title="Single Option">
+				<span class="filter-option pull-left">Single Option</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span>
+			</button>
+			<div class="dropdown-menu open" role="combobox">
+				<ul class="dropdown-menu inner" role="listbox" aria-expanded="false">
+					<li data-original-index="1" class="disabled selected"><a tabindex="-1" class="" data-tokens="null" role="option" href="#" aria-disabled="true" aria-selected="true"><span class="text">Single Option</span><span class="tim-icons icon-check-2 check-mark"></span></a></li>
+					<li data-original-index="2"><a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="false"><span class="text">Foobar</span><span class="tim-icons icon-check-2 check-mark"></span></a></li>
+					<li data-original-index="3"><a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="false"><span class="text">Is great</span><span class="tim-icons icon-check-2 check-mark"></span></a></li>
+				</ul>
+			</div>
+			<!-- <select class="selectpicker" data-size="7" data-style="btn btn-primary" title="Single Select" tabindex="-98"><option class="bs-title-option" value="">Single Select</option>
+              <option disabled="" selected="">Single Option</option>
+              <option value="2">Foobar</option>
+              <option value="3">Is great</option>
+            </select> -->
+		</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">Execution</h4>
+      </div>
+      <div class="card-body">
+		<div class="row">
+		  <div class="col-md-6"><button class="btn btn-warning" style="width:100%;"> Run Training</button></div>
+		  <div class="col-md-6"><button class="btn btn-warning" style="width:100%;"> Start Evaluation</button></div>
+		</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+	<div class="col-lg-3 col-md-6">
+	  <div class="card card-pricing card-warning card-white"> <!-- card-raised -->
+	    <div class="card-body">
+	      <h1 class="card-title">Safe</h1>
+	      <img class="card-img" src="static/lib/black-dashboard-pro/assets/img/card-warning.png" alt="Image">
+	      <ul class="list-group">
+	        <li class="list-group-item">200 messages</li>
+	        <li class="list-group-item">130 emails</li>
+	        <li class="list-group-item">24/7 Support</li>
+	      </ul>
+		  <img src="static/data/image_ori/20171015-DJI-P4P-GSPro-Test-03_L_24.jpg">
+	      <div class="card-prices">
+	        <h3 class="text-on-front">
+	          <span>STATE</span> 1</h3>
+	        <h5 class="text-on-back">1</h5>
+	        <p class="plan">20171015-DJI-P4P-GSPro-Test-03_L_24</p>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<div class="col-lg-3 col-md-6">
+	  <div class="card card-pricing card-warning card-white"> <!-- card-raised -->
+	    <div class="card-body">
+	      <h1 class="card-title">Safe</h1>
+	      <img class="card-img" src="static/lib/black-dashboard-pro/assets/img/card-warning.png" alt="Image">
+	      <ul class="list-group">
+	        <li class="list-group-item">200 messages</li>
+	        <li class="list-group-item">130 emails</li>
+	        <li class="list-group-item">24/7 Support</li>
+	      </ul>
+		  <img src="static/data/image_ori/20171015-DJI-P4P-GSPro-Test-03_L_24.jpg">
+	      <div class="card-prices">
+	        <h3 class="text-on-front">
+	          <span>STATE</span> 1</h3>
+	        <h5 class="text-on-back">1</h5>
+	        <p class="plan">20171015-DJI-P4P-GSPro-Test-03_L_24</p>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<div class="col-lg-3 col-md-6">
+	  <div class="card card-pricing card-warning card-white"> <!-- card-raised -->
+	    <div class="card-body">
+	      <h1 class="card-title">Safe</h1>
+	      <img class="card-img" src="static/lib/black-dashboard-pro/assets/img/card-warning.png" alt="Image">
+	      <ul class="list-group">
+	        <li class="list-group-item">200 messages</li>
+	        <li class="list-group-item">130 emails</li>
+	        <li class="list-group-item">24/7 Support</li>
+	      </ul>
+		  <img src="static/data/image_ori/20171015-DJI-P4P-GSPro-Test-03_L_24.jpg">
+	      <div class="card-prices">
+	        <h3 class="text-on-front">
+	          <span>STATE</span> 1</h3>
+	        <h5 class="text-on-back">1</h5>
+	        <p class="plan">20171015-DJI-P4P-GSPro-Test-03_L_24</p>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+</div>
+{% endblock %}
+
+
+{% block modal %}
+
+{% endblock %}
