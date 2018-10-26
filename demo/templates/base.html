@@ -43,20 +43,26 @@
       <ul class="nav">
         <li class="nav-item">
             <a class="nav-link" href="/imagemanager">
-                <i class="tim-icons icon-chart-pie-36"></i>
+                <i class="tim-icons icon-image-02"></i>
                 <p>Image Manager</p>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="/trainingsetmanager">
-                <i class="tim-icons icon-chart-pie-36"></i>
+                <i class="tim-icons icon-single-copy-04"></i>
                 <p>Trainingset Manager</p>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="/diagnostics">
-                <i class="tim-icons icon-chart-pie-36"></i>
+                <i class="tim-icons icon-zoom-split"></i>
                 <p>Deep Diagnostics</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/itemoptimizer">
+                <i class="tim-icons icon-atom"></i>
+                <p>Prognostic Item Optimizer</p>
             </a>
         </li>
          <!-- your sidebar here -->
@@ -246,7 +252,10 @@
             $(lis[2]).addClass('active');
             $("#navbar-title").text('Deep Diagnostics');
             break;
-
+        case '/itemoptimizer':
+            $(lis[3]).addClass('active');
+            $("#navbar-title").text('Prognostic Item Optimizer');
+            break;
     }
 </script>
 

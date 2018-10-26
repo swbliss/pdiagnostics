@@ -78,10 +78,21 @@ def trainingset():
 	return json.dumps(trainingset_info())
 
 
+
 ########### TAB:diagnostics #############
 @app.route('/diagnostics')
 def diagnostics():
 	return render_template('diagnostics.html')
+
+@app.route('/trainingset_list')
+def trainingset_list():
+	return json.dumps(trainingset_info().keys())
+
+
+########### TAB:itemoptimizer #############
+@app.route('/itemoptimizer')
+def itemoptimizer():
+	return render_template('itemoptimizer.html')
 
 
 if __name__ == "__main__":
