@@ -50,6 +50,10 @@ var gradientBarChartConfiguration =  {
      }
 };
 
+function addRow(tableid, data) {
+    var t = $('#' + tableid).DataTable();
+    t.row.add(data).draw(false);
+}
 
 function getTrainingset() {
     $.ajax({
@@ -64,47 +68,30 @@ function getTrainingset() {
     });
 }
 
-function addTableRow(target, name) {
-    var meta = name.split('.')[0] + '.meta.txt';
-    var tableid = (target=='ori' ? 'datatable' : 'datatable2');
-    var imagePrefix = dataPrefix + 'image_' + target + '/';
+function fillTrainingImages(name) {
+    $('#datatable2').DataTable().clear().draw();
 
-    $.ajax({
-        url: imagePrefix + meta,
-        success: function(data) {
-            oriImages.push({
-                img: imagePrefix + name + '.jpg',
-                name: name,
-                state: data.trim()
-            })
+    examples = trainingsets[name];
+    if (examples.length == 0) {
+        return;
+    }
 
-            let button = "<button type='button' rel='tooltip' \
-                                 data-placement='top' title='' \
-                                 class='btn btn-link btn-icon btn-sm btn-neutral' \
-                                 onClick='" + (target=='ori' ? "onDelete(this)" : "onAdd(this)") +
-                                 "'> <i class='tim-icons " +
-                                 (target=='ori' ? 'icon-trash-simple' : 'icon-simple-add') +
-                                 "'></i></button>"
+    let button = "<button type='button' rel='tooltip' \
+                    data-placement='top' title='' \
+                    class='btn btn-link btn-icon btn-sm btn-neutral' \
+                    onClick='onDelete'> <i class='tim-icons icon-trash-simple'></i></button>";
 
-            if (target == "ori") {
-                addRow(tableid, [1, '<img src="' + imagePrefix + name + '.jpg">', name,
-                    -1, -1, 2018-10-12, -1, data.trim(), button])
-            } else {
-                addRow(tableid, ['<img src="' + imagePrefix + name + '.jpg" style="height:30px">', name,
-                    -1, -1, 2018-10-12, -1, data.trim(), button])
-            }
-        },
-    });
+    for (i in examples) {
+        let ex = examples[i];
+        addRow("datatable2", [1, '<img src="static/data/training/' + name + '/' + ex[0] + '.jpg">',
+            ex[0], ex[1], ex[2], ex[3], ex[4], ex[5], button]);
+    }
 }
 
-function addRow(tableid, data) {
-    var t = $('#' + tableid).DataTable();
-    t.row.add(data).draw(false);
-}
 
 function initDatatable() {
-   // DataTable
-    var table = $('#datatable').DataTable( {
+    // Trainingset List
+    var datatable = $('#datatable').DataTable( {
         "scrollY": "180px",
         searching: false,
         lengthChange: false,
@@ -113,27 +100,51 @@ function initDatatable() {
         columnDefs: [
             { sortable: false, targets: 0 },
             { sortable: false, targets: 1 },
-            { sortable: false, targets: 2 }
-        ]
+            { targets: 2 }
+        ],
+        order: [[ 2, 'desc' ]]
     } );
 
-    // indexing
-    table.on( 'order.dt search.dt', function () {
-        table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+    //// indexing
+    datatable.on( 'order.dt search.dt', function () {
+        datatable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
             cell.innerHTML = i+1;
         } );
+        // table.$('tr.selected').removeClass('selected');
+        // $($('#datatable tbody').children()[0]).addClass('selected');
+        // changeSet($($('#datatable tbody').children()[0]).text());
     } ).draw();
 
-    // row selection
+    //// row selection
     $('#datatable tbody').on( 'click', 'tr', function () {
         if ( $(this).hasClass('selected') ) {
             return;
         } else {
-            table.$('tr.selected').removeClass('selected');
+           datatable.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
         }
         changeSet($($(this).children()[1]).text());
     } );
+
+    // example list
+    var datatable2 = $('#datatable2').DataTable( {
+        searching: false,
+        lengthChange: false,
+        columnDefs: [
+            { sortable: false, "class": "index", targets: 0 },
+            { sortable: false, targets: 1 },
+            { sortable: false, targets: -1 }
+        ],
+        order: [[ 2, 'asc' ]],
+        "pageLength": 5
+    } );
+
+    datatable2.on( 'order.dt search.dt', function () {
+        datatable2.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();
+
 }
 
 function changeSet(name) {
@@ -141,6 +152,7 @@ function changeSet(name) {
     $('#summary-title').text(name);
     $('#summary-count').text(trainingset.length);
 
+    // update chart
     var labelCounts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     $.map(trainingset, function( val, i ) {
     	labelCounts[parseInt(val[5]) - 1] += 1;
@@ -148,10 +160,13 @@ function changeSet(name) {
     labelChart.data.datasets[0].data = labelCounts;
     labelChart.options.scales.yAxes[0]['ticks']['suggestedMax'] = Math.max(...labelCounts) + 5;
     labelChart.update()
+
+    // update table
+    fillTrainingImages(name);
 }
 
 
-function trainingsetChart() {
+function initTrainingsetChart() {
     var ctx = document.getElementById("label-chart").getContext("2d");
     var gradientStroke = ctx.createLinearGradient(0,230,0,50);
 
@@ -177,17 +192,17 @@ function trainingsetChart() {
           borderWidth: 2,
           borderDash: [],
           borderDashOffset: 0.0,
-          data: [ 53, 20, 10, 80, 100, 45, 112, 80, 20, 60],
+          data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         }]
       },
         options: gradientBarChartConfiguration
     });
 }
-
 function Init() {
-    initDatatable();
     getTrainingset();
-    trainingsetChart();
+
+    initDatatable();
+    initTrainingsetChart();
 }
 
 $( document ).ready(function() {
