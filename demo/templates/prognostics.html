@@ -16,7 +16,7 @@
   <div class="col-md-6">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">Prognostics Model</h4>
+        <h4 class="card-title">1. Prognostics Model</h4>
 		<span style="color:#6c757d!important; font-size:.725rem">Select a prognostics model for each maintenance level<span>
       </div>
       <div class="card-body">
@@ -24,34 +24,31 @@
           <div class="row">
             <label class="col-md-3 col-form-label">No Maintenance</label>
             <div class="col-md-9">
+			  <div class="form-group">
 				<div class="btn-group bootstrap-select">
-					<button type="button" class="dropdown-toggle bs-placeholder btn btn-primary" data-toggle="dropdown" role="button" title="Single Option">
-						<span class="filter-option pull-left">Single Option</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span>
-					</button>
-					<div class="dropdown-menu open" role="combobox">
-						<ul class="dropdown-menu inner" role="listbox" aria-expanded="false">
-							<li data-original-index="1" class="disabled selected"><a tabindex="-1" class="" data-tokens="null" role="option" href="#" aria-disabled="true" aria-selected="true"><span class="text">Single Option</span><span class="tim-icons icon-check-2 check-mark"></span></a></li>
-							<li data-original-index="2"><a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="false"><span class="text">Foobar</span><span class="tim-icons icon-check-2 check-mark"></span></a></li>
-							<li data-original-index="3"><a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="false"><span class="text">Is great</span><span class="tim-icons icon-check-2 check-mark"></span></a></li>
-						</ul>
-					</div>
+					<select id="trainingset-list" class="selectpicker" data-size="2" data-style="btn btn-primary" title="Model Selection" tabindex="-98"></select>
 				</div>
+			  </div>
             </div>
           </div>
           <div class="row">
             <label class="col-md-3 col-form-label">Partial Maintenance</label>
             <div class="col-md-9">
-              <div class="form-group">
-                <input type="text" autocomplete="off" class="form-control">
-              </div>
+			  <div class="form-group">
+				<div class="btn-group bootstrap-select">
+					<select id="trainingset-list" class="selectpicker" data-size="2" data-style="btn btn-primary" title="Model Selection" tabindex="-98"></select>
+				</div>
+			  	</div>
             </div>
           </div>
           <div class="row">
             <label class="col-md-3 col-form-label">Reconstruction</label>
             <div class="col-md-9">
-              <div class="form-group">
-                <input type="password" autocomplete="off" class="form-control">
-              </div>
+			  <div class="form-group">
+				<div class="btn-group bootstrap-select">
+					<select id="trainingset-list" class="selectpicker" data-size="2" data-style="btn btn-primary" title="Model Selection" tabindex="-98"></select>
+				</div>
+			  	</div>
             </div>
           </div>
         </form>
@@ -62,7 +59,7 @@
   <div class="col-md-6">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">Prognostics Cost</h4>
+        <h4 class="card-title">2. Prognostics Cost</h4>
 		<span style="color:#6c757d!important; font-size:.725rem">Write down the cost incurred for each maintenance level<span>
       </div>
       <div class="card-body">
@@ -71,7 +68,7 @@
             <label class="col-md-3 col-form-label">No Maintenance</label>
             <div class="col-md-9">
               <div class="form-group">
-                <input type="text" autocomplete="off" class="form-control">
+                <input type="text" autocomplete="off" class="form-control" style="height:45px">
               </div>
             </div>
           </div>
@@ -79,7 +76,7 @@
             <label class="col-md-3 col-form-label">Partial Maintenance</label>
             <div class="col-md-9">
               <div class="form-group">
-                <input type="text" autocomplete="off" class="form-control">
+                <input type="text" autocomplete="off" class="form-control" style="height:45px">
               </div>
             </div>
           </div>
@@ -87,7 +84,7 @@
             <label class="col-md-3 col-form-label">Reconstruction</label>
             <div class="col-md-9">
               <div class="form-group">
-                <input type="password" autocomplete="off" class="form-control">
+                <input type="password" autocomplete="off" class="form-control" style="height:45px">
               </div>
             </div>
           </div>
@@ -101,7 +98,7 @@
 	<div class="col-md-12">
 	  <div class="card">
 	    <div class="card-header">
-	        <h4 class="card-title">Optimizer Configuration</h4>
+	        <h4 class="card-title">3. Optimizer Configuration</h4>
 			<span class="form-text" style="color:#6c757d!important; font-size:.725rem">Write down intended maintenance period and expected user cost for each road state</span>
 			<!-- <button class="btn btn-info" style="position:absolute; top: 15px; right:30px"> Item Optimize</button> -->
 		</div>
@@ -184,7 +181,7 @@
 
 <div class="row">
 	<div class="col-lg-12" style="margin-bottom: 30px">
-		<button class="btn btn-warning btn-simple btn-round" style="width:100%"> Item Optimize</button>
+		<button class="btn btn-warning btn-simple btn-round disabled" style="width:100%"> Item Optimize</button>
 	</div>
 </div>
 
