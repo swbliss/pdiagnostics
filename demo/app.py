@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory, url_for
+from flask import Flask, render_template, send_from_directory, url_for, request
 import os
 import json
 
@@ -87,6 +87,23 @@ def diagnostics():
 @app.route('/trainingset_list')
 def trainingset_list():
 	return json.dumps(trainingset_info().keys())
+
+@app.route('/train')
+def train():
+	# TODO: run the real model
+	trainingset = request.args.get('set', '')
+	print(trainingset)
+	return ''
+
+@app.route('/eval')
+def eval():
+	res = {}
+	prefix = 'static/data/test/'
+	for name in os.listdir(prefix):
+		if name[-8:] == "meta.txt":
+			pred = open(prefix + name).readline().strip()
+			res[name.split('.')[0]] = pred
+	return json.dumps(res)
 
 
 ########### TAB:prognostics #############

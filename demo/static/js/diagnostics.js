@@ -1,10 +1,18 @@
 let dataPrefix = '/static/data/';
 var trainingsets;
-var labelChart;
 
-function addRow(tableid, data) {
-    var t = $('#' + tableid).DataTable();
-    t.row.add(data).draw(false);
+function showNotification(from, align, msg) {
+    $.notify({
+        icon: "tim-icons icon-bell-55",
+        message: msg
+    },{
+        type: 'default',
+        delay: 1200,
+        placement: {
+            from: from,
+            align: align
+        }
+    });
 }
 
 function initTrainingsetList() {
@@ -23,27 +31,82 @@ function initTrainingsetList() {
 
     $('#trainingset-list').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
         $('#run-training').removeClass('disabled');
-    });
-}
+        $('#start-eval').addClass('disabled');
 
-function showNotification(from, align, msg) {
-    $.notify({
-        icon: "tim-icons icon-bell-55",
-        message: msg
-    },{
-        type: 'default',
-        delay: 1200,
-        placement: {
-            from: from,
-            align: align
-        }
+        $('.eval').remove();
+        $('#result-placeholder').show();
     });
 }
 
 function runTraining() {
+    var currentTrainingset = $('.filter-option').text();
     showNotification('bottom', 'right',
-    "<b>Training</b> with <b>" + $('.filter-option').text() + "</b> set is started. Please, wait a moment until training is finshed.")
-    // addTableRow('ori', $(button).parent().parent().children()[1].textContent);
+    "<b>Training</b> with <b>" + currentTrainingset + "</b> set is started. Please, wait a moment until training is finshed.")
+
+    setTimeout(function() {
+        $.ajax({
+            url: 'train?set=' + currentTrainingset,
+            success: function(data) {
+                showNotification('bottom', 'right',
+                "<b>Training Done</b>. You can start the evaluation.")
+                $('#start-eval').removeClass('disabled');
+            }
+        });
+    }, 1500);
+}
+
+function startEval() {
+    $('#result-placeholder').hide();
+    $.ajax({
+        url: 'eval',
+        success: function(data) {
+            var result = JSON.parse(data);
+            var imgs = Object.keys(result);
+            for (i in imgs) {
+                console.log("debug: " + i);
+                setTimeout(addCards, 400*i, result, imgs, i);
+            }
+        }
+    });
+}
+
+function addCards(result, imgs, i) {
+    $('#eval-result').append(evalResultCard(imgs[i], result[imgs[i]]));
+    if (i == imgs.length - 1) {
+        showNotification('bottom', 'right',
+            "<b>Evaluation Done</b>.")
+    }
+}
+
+function evalResultCard(name, pred) {
+    var level;
+    if (pred <= 3) {
+        level = "danger";
+    } else if (pred >= 4 && pred <= 7){
+        level = "warn";
+    } else {
+        level = "safe";
+    }
+
+	return '<div class="eval col-lg-3 col-md-6 animated fadeIn">\
+	  <div class="card card-pricing card-warning card-white">\
+	    <div class="card-body">\
+	      <h1 class="card-title">' + level + '</h1>\
+	      <ul class="list-group">\
+	        <li class="list-group-item">200 messages</li>\
+	        <li class="list-group-item">130 emails</li>\
+	        <li class="list-group-item">24/7 Support</li>\
+	      </ul>\
+		  <img src="static/data/test/' + name + '.jpg">\
+	      <div class="card-prices">\
+	        <h3 class="text-on-front">\
+	          <span>STATE</span> ' + pred + '</h3>\
+	        <h5 class="text-on-back">' + pred + '</h5>\
+	        <p class="plan">' + name + '</p>\
+	      </div>\
+	    </div>\
+	  </div>\
+	</div>';
 }
 
 function fillTrainingImages(name) {

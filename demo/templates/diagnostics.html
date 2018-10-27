@@ -35,70 +35,16 @@
       <div class="card-body">
 		<div class="row">
 		  <div class="col-md-6"><button id="run-training" class="btn btn-warning disabled" onClick="runTraining()" style="width:100%;"> Run Training</button></div>
-		  <div class="col-md-6"><button id="start-eval" class="btn btn-warning disabled" style="width:100%;"> Start Evaluation</button></div>
+		  <div class="col-md-6"><button id="start-eval" class="btn btn-warning disabled" onClick="startEval()" style="width:100%;"> Start Evaluation</button></div>
 		</div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="row">
-	<div class="col-lg-3 col-md-6">
-	  <div class="card card-pricing card-warning card-white"> <!-- card-raised -->
-	    <div class="card-body">
-	      <h1 class="card-title">Safe</h1>
-	      <ul class="list-group">
-	        <li class="list-group-item">200 messages</li>
-	        <li class="list-group-item">130 emails</li>
-	        <li class="list-group-item">24/7 Support</li>
-	      </ul>
-		  <img src="static/data/image_ori/20171015-DJI-P4P-GSPro-Test-03_L_24.jpg">
-	      <div class="card-prices">
-	        <h3 class="text-on-front">
-	          <span>STATE</span> 1</h3>
-	        <h5 class="text-on-back">1</h5>
-	        <p class="plan">20171015-DJI-P4P-GSPro-Test-03_L_24</p>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-	<div class="col-lg-3 col-md-6">
-	  <div class="card card-pricing card-warning card-white"> <!-- card-raised -->
-	    <div class="card-body">
-	      <h1 class="card-title">Safe</h1>
-	      <ul class="list-group">
-	        <li class="list-group-item">200 messages</li>
-	        <li class="list-group-item">130 emails</li>
-	        <li class="list-group-item">24/7 Support</li>
-	      </ul>
-		  <img src="static/data/image_ori/20171015-DJI-P4P-GSPro-Test-03_T_36.jpg">
-	      <div class="card-prices">
-	        <h3 class="text-on-front">
-	          <span>STATE</span> 1</h3>
-	        <h5 class="text-on-back">1</h5>
-	        <p class="plan">20171015-DJI-P4P-GSPro-Test-03_L_24</p>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-	<div class="col-lg-3 col-md-6">
-	  <div class="card card-pricing card-warning card-white"> <!-- card-raised -->
-	    <div class="card-body">
-	      <h1 class="card-title">Safe</h1>
-	      <ul class="list-group">
-	        <li class="list-group-item">200 messages</li>
-	        <li class="list-group-item">130 emails</li>
-	        <li class="list-group-item">24/7 Support</li>
-	      </ul>
-		  <img src="static/data/image_ori/20171015-DJI-P4P-GSPro-Test-02_I_17.jpg">
-	      <div class="card-prices">
-	        <h3 class="text-on-front">
-	          <span>STATE</span> 1</h3>
-	        <h5 class="text-on-back">1</h5>
-	        <p class="plan">20171015-DJI-P4P-GSPro-Test-03_L_24</p>
-	      </div>
-	    </div>
-	  </div>
+<div id="eval-result" class="row">
+	<div class="col-lg-12" style="text-align:center">
+		<h4 id="result-placeholder" class="description fadeIn fadeOut" style="margin-top: 20px">There is no result. Run training and Start Evaluation</h4>
 	</div>
 </div>
 {% endblock %}
