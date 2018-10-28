@@ -1,3 +1,15 @@
 .card-chart {
     height: 330px;
 }
+
+.white-content .page-link { color: #1d253b; }
+
+img:hover {
+    -ms-transform: scale(2, 2); /* IE 9 */
+    -webkit-transform: scale(2, 2); /* Safari */
+    transform: scale(2, 2);
+
+    -webkit-transition: transform 0.2s ease-in-out;
+    -moz-transition:transform 0.2s ease-in-out;
+    -ms-transition:transform 0.2s ease-in-out;
+}

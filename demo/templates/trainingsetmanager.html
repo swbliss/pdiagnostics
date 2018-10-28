@@ -83,7 +83,7 @@
 					</div>
 				 </div>
 				 <div class="col-sm-12 col-md-6" style="text-align: right">
-					 <button type="button" class="btn btn-link btn-icon btn-primary btn-sm" onClick="toggleNewModal()">
+					 <button id="addImageButton" type="button" class="btn btn-link btn-icon btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
 					   <i class="tim-icons icon-simple-add text-info"></i>
 					 </button>
 				 </div>
@@ -135,4 +135,41 @@
   </div>
 </div>
 
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content white-content">
+            <div class="modal-header">
+                <button type="button" class="close btn btn-danger btn-link " data-dismiss="modal">
+                    <i class="tim-icons icon-simple-remove"></i>
+                </button>
+                <h3 class="modal-title">Add New Image</h4>
+            </div>
+            <div class="modal-body">
+                <div id="datatable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                   <div class="row">
+                      <div class="col-sm-12">
+                         <table id="datatable3" class="table dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="">
+                            <thead class='col-sm-12'>
+                               <tr role="row">
+                                  <th aria-controls="datatable3" rowspan="1" colspan="1">Image</th>
+                                  <th aria-controls="datatable3" rowspan="1" colspan="1">Name</th>
+                                  <th aria-controls="datatable3" rowspan="1" colspan="1">Route</th>
+                                  <th aria-controls="datatable3" rowspan="1" colspan="1">Section</th>
+                                  <th aria-controls="datatable3" rowspan="1" colspan="1">Platform</th>
+                                  <th aria-controls="datatable3" rowspan="1" colspan="1">Date</th>
+                                  <th aria-controls="datatable3" rowspan="1" colspan="1">State</th>
+                                  <th aria-controls="datatable3" rowspan="1" colspan="1"> </th>
+                               </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                         </table>
+                      </div>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

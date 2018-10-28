@@ -1,7 +1,18 @@
 let dataPrefix = '/static/data/';
 var trainingsets;
+var examples;
 var labelChart;
 
+let addButton = "<button type='button' rel='tooltip' \
+                data-placement='top' title='' \
+                class='btn btn-link btn-icon btn-sm btn-neutral' \
+                onClick='imgAdd(this)'> <i class='tim-icons \
+                icon-simple-add'></i></button>";
+
+let deleteButton = "<button type='button' rel='tooltip' \
+                data-placement='top' title='' \
+                class='btn btn-link btn-icon btn-sm btn-neutral' \
+                onClick='imgDelete(this)'> <i class='tim-icons icon-trash-simple'></i></button>";
 var gradientBarChartConfiguration =  {
   maintainAspectRatio: false,
   legend: {
@@ -50,6 +61,54 @@ var gradientBarChartConfiguration =  {
      }
 };
 
+function getExamples() {
+    $.ajax({
+        url: 'examples',
+        success: function(data) {
+            examples = JSON.parse(data);
+        }
+    });
+}
+
+function getNewExamples(name) {
+    var imagePrefix = 'static/data/image_ori/';
+    $('#datatable3').DataTable().clear().draw();
+
+    var trainingset = trainingsets[name];
+    var includedExamples = trainingset.map(set => set[0]);
+
+    for (i in examples) {
+        if ($.inArray(examples[i][0], includedExamples) != -1) {
+            continue;
+        }
+        var e = examples[i];
+        addRow('datatable3', ['<img src="' + imagePrefix + e[0] + '.jpg" style="height:30px">', e[0],
+            e[1], e[2], e[3], e[4], e[5], addButton]);
+    }
+}
+
+
+// function addRowWithName(target, name) {
+//     var meta = name + '.meta.txt';
+//
+//     $.ajax({
+//         url: imagePrefix + meta,
+//         success: function(data) {
+//             var m = data.trim().split(',');
+//
+//             let button = "<button type='button' rel='tooltip' \
+//                             data-placement='top' title='' \
+//                             class='btn btn-link btn-icon btn-sm btn-neutral' \
+//                             onClick='imgAdd'> <i class='tim-icons \
+//                             icon-simple-add'></i></button>";
+//
+//             addRow(target, ['<img src="' + imagePrefix + name + '.jpg" style="height:30px">', name,
+//                 m[0], m[1], m[2], m[3], m[4], button])
+//         },
+//     });
+// }
+
+
 function addRow(tableid, data) {
     var t = $('#' + tableid).DataTable();
     t.row.add(data).draw(false);
@@ -71,20 +130,15 @@ function getTrainingset() {
 function fillTrainingImages(name) {
     $('#datatable2').DataTable().clear().draw();
 
-    examples = trainingsets[name];
-    if (examples.length == 0) {
+    includedExamples = trainingsets[name];
+    if (includedExamples.length == 0) {
         return;
     }
 
-    let button = "<button type='button' rel='tooltip' \
-                    data-placement='top' title='' \
-                    class='btn btn-link btn-icon btn-sm btn-neutral' \
-                    onClick='onDelete'> <i class='tim-icons icon-trash-simple'></i></button>";
-
-    for (i in examples) {
-        let ex = examples[i];
+    for (i in includedExamples) {
+        let ex = includedExamples[i];
         addRow("datatable2", [1, '<img src="static/data/training/' + name + '/' + ex[0] + '.jpg">',
-            ex[0], ex[1], ex[2], ex[3], ex[4], ex[5], button]);
+            ex[0], ex[1], ex[2], ex[3], ex[4], ex[5], deleteButton]);
     }
 }
 
@@ -110,9 +164,6 @@ function initDatatable() {
         datatable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
             cell.innerHTML = i+1;
         } );
-        // table.$('tr.selected').removeClass('selected');
-        // $($('#datatable tbody').children()[0]).addClass('selected');
-        // changeSet($($('#datatable tbody').children()[0]).text());
     } ).draw();
 
     //// row selection
@@ -145,6 +196,26 @@ function initDatatable() {
         } );
     } ).draw();
 
+    $('#addImageButton').on('click', function() {
+        getNewExamples($($('#datatable').find('tr.selected').children()[1]).text());
+    });
+
+    // Modal Table
+    var datatable3 = $('#datatable3').DataTable( {
+        "scrollY": "300px",
+        "scrollX": false,
+        searching: false,
+        lengthChange: false,
+        ordering: false,
+        "pageLength": 5,
+    });
+
+    // indexing
+    // datatable3.on( 'order.dt search.dt', function () {
+    //     datatable3.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+    //         cell.innerHTML = i+1;
+    //     } );
+    // } ).draw();
 }
 
 function changeSet(name) {
@@ -234,10 +305,87 @@ function createModalInit() {
     });
 }
 
+function addTableRow(target, name) {
+    var meta = name + '.meta.txt';
+    var imagePrefix = 'static/data/image_ori/';
+
+    $.ajax({
+        url: imagePrefix + meta,
+        success: function(data) {
+            var m = data.trim().split(',')
+
+            let button = "<button type='button' rel='tooltip' \
+                            data-placement='top' title='' \
+                            class='btn btn-link btn-icon btn-sm btn-neutral' \
+                            onClick='" + (target=='ori' ? "onDelete(this)" : "imgAdd(this)") +
+                            "'> <i class='tim-icons " +
+                            (target=='datatable2' ? 'icon-trash-simple' : 'icon-simple-add') +
+                            "'></i></button>"
+
+            addRow(target, [1, '<img src="' + imagePrefix + name + '.jpg">', name,
+                m[0], m[1], m[2], m[3], m[4], button]);
+        }
+    });
+}
+
+function imgDelete(button) {
+    var table = $('#datatable2').DataTable();
+    table.row($(button).parent().parent()).remove().draw( false );
+
+    var trainingset = $($('#datatable').find('tr.selected').children()[1]).text();
+    var filename = $(button).parent().parent().children()[2].textContent;
+
+    for (i in trainingsets[trainingset]) {
+        if (trainingsets[trainingset][i][0] == filename) {
+            trainingsets[trainingset].splice(i, 1);
+        }
+    }
+
+    $.ajax({
+        url: "/set_delete_img?set=" + trainingset + '&' + 'name=' + filename,
+        success: function(data) {
+            showNotification('bottom', 'right',
+            "<b>Image</b> " + filename + " is safely deleted.");
+
+            var dt = $('#datatable').DataTable();
+            var temp = dt.row($('#datatable').find('tr.selected')).data();
+            temp[2] = trainingsets[trainingset].length;
+            dt.row($('#datatable').find('tr.selected')).data(temp);
+            changeSet(trainingset);
+        }
+    });
+}
+
+function imgAdd(button) {
+    var table = $('#datatable3').DataTable();
+    var trainingset = $($('#datatable').find('tr.selected').children()[1]).text();
+    var filename = $(button).parent().parent().children()[1].textContent;
+
+    table.row($(button).parent().parent()).remove().draw( false );
+    // TODO: datasets에 새로 추가되는 애 넣어주기
+    var e = examples[$.inArray(filename, examples.map(e=>e[0]))];
+    trainingsets[trainingset].push(e);
+
+    $.ajax({
+        url: "/set_add_img?set=/" + trainingset + '&' + 'name=' + filename,
+        success: function(data) {
+            showNotification('bottom', 'right',
+            "<b>Image</b> " + filename + " is safely added.");
+
+            var dt = $('#datatable').DataTable();
+            var temp = dt.row($('#datatable').find('tr.selected')).data();
+            temp[2] = trainingsets[trainingset].length;
+            dt.row($('#datatable').find('tr.selected')).data(temp);
+            changeSet(trainingset);
+        }
+    });
+}
+
 
 function Init() {
     getTrainingset();
     createModalInit();
+    getExamples();
 
     initDatatable();
     initTrainingsetChart();

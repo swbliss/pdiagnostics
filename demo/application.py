@@ -1,6 +1,7 @@
 from flask import Flask, render_template, send_from_directory, url_for, request
 import os
 import json
+from shutil import copyfile
 
 
 #################### GLOBAL ####################
@@ -77,6 +78,18 @@ def trainingset_manager():
 def trainingset():
 	return json.dumps(trainingset_info())
 
+@app.route('/examples', methods=['GET'])
+def examples():
+	prefix = 'static/data/image_ori/'
+	res = [] 
+	for filename in os.listdir(prefix):
+		if filename[-8:] != "meta.txt":
+			continue
+		toks = open(prefix + filename).readline().strip().split(',')
+		res.append([filename.split('.')[0]] + toks)
+	return json.dumps(res)
+
+
 @app.route('/create_set', methods=['GET'])
 def createset():
 	name = request.args.get('name', '')
@@ -84,6 +97,26 @@ def createset():
 		os.mkdir('static/data/training/' + name)
 	return ''
 	
+@app.route('/set_delete_img', methods=['GET', 'POST'])
+def set_delete_img():
+	trainingset = request.args.get('set', '')
+	filename = request.args.get('name', '')
+
+	os.remove('static/data/training/{}/{}.jpg'.format(trainingset, filename))
+	os.remove('static/data/training/{}/{}.meta.txt'.format(trainingset, filename))
+	return ''
+
+@app.route('/set_add_img', methods=['GET', 'POST'])
+def set_add_img():
+	trainingset = request.args.get('set', '')
+	filename = request.args.get('name', '')
+
+	copyfile('static/data/image_ori/{}.jpg'.format(filename),
+		'static/data/training/{}/{}.jpg'.format(trainingset, filename))
+	copyfile('static/data/image_ori/{}.meta.txt'.format(filename),
+		'static/data/training/{}/{}.meta.txt'.format(trainingset, filename))
+	return ''
+
 
 ########### TAB:diagnostics #############
 @app.route('/diagnostics')
