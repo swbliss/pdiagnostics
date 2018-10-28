@@ -20,15 +20,11 @@ function itemOptimize() {
     for (i in inputs) {
         if ($(inputs[i]).val().length == 0) {
             showNotification('top', 'right',
-            "Fill in <b>all the blanks</b> which item optimizer needs.", "warning")
-            debugger;
-            // "<b>Training</b> with <b>" + currentTrainingset + "</b> set is started. Please, wait a moment until training is finshed.")
+            "Fill in <b>all the blanks</b> required for item optimizer.", "warning")
             return;
         }
     }
-    // for ($)
-    // for $($('input')[0]).text()
-    // if ()
+
 }
 
 function Init() {

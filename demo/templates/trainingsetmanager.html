@@ -18,7 +18,7 @@
 	  <div class="card-header">
         <h4 class="card-title">Deep Diagnostics Training Sets</h4>
         <p class="card-category">select set or create new one</p>
-  		<button type="button" class="btn btn-link btn-icon btn-neutral" onClick="toggleNewModal()" style="position:absolute; top:15px; right:15px;">
+  		<button type="button" class="btn btn-link btn-icon btn-neutral" data-toggle="modal" data-target="#createModal" style="position:absolute; top:15px; right:15px;">
 			<i class="tim-icons icon-simple-add text-info"></i>
   		</button>
       </div>
@@ -119,9 +119,20 @@
 {% endblock %}
 
 
-
-
-
 {% block modal %}
+<!-- Modal -->
+<div class="modal modal-search fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <input type="text" class="form-control" id="createModalInput" placeholder="name" style="padding-right:100px">
+        <button type="button" class="close" id="createModalButton" data-dismiss="modal" aria-label="create">
+          <i class="tim-icons icon-simple-add"></i>
+		  Create
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

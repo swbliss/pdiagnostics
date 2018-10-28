@@ -77,7 +77,13 @@ def trainingset_manager():
 def trainingset():
 	return json.dumps(trainingset_info())
 
-
+@app.route('/create_set', methods=['GET'])
+def createset():
+	name = request.args.get('name', '')
+	if len(name) != 0:
+		os.mkdir('static/data/training/' + name)
+	return ''
+	
 
 ########### TAB:diagnostics #############
 @app.route('/diagnostics')

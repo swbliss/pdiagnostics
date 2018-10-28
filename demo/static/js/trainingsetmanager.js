@@ -198,8 +198,46 @@ function initTrainingsetChart() {
         options: gradientBarChartConfiguration
     });
 }
+
+function createModalInit() {
+    $('#createModal').on('hidden.bs.modal', function () {
+        $('#createModalInput').val('');
+    });
+    $('#createModalButton').on('click', function () {
+        var name = $('#createModalInput').val().trim();
+        $.ajax({
+            url: 'create_set?name=' + name,
+            success: function(data) {
+                showNotification('bottom', 'right',
+                "Training set <b>" + name + "</b> has been created.");
+            }
+        });
+
+        if (name in Object.keys(trainingsets)) {
+            showNotification('top', 'right',
+            "Training set having the same name aleary exits.", "warning")
+            return;
+        }
+
+        trainingsets[name] = [];
+
+        addRow('datatable', [1, name, trainingsets[name].length]);
+        // Scroll to the bottom
+        var $scrollBody = $($('#datatable').DataTable().table().node()).parent();
+        $scrollBody.scrollTop($scrollBody.get(0).scrollHeight);
+
+        var tmp = $('#datatable').find('tr');
+        $('#datatable').find('tr.selected').removeClass('selected');
+        $(tmp[tmp.length -1]).addClass('selected');
+
+        changeSet(name);
+    });
+}
+
+
 function Init() {
     getTrainingset();
+    createModalInit();
 
     initDatatable();
     initTrainingsetChart();
