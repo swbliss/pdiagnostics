@@ -106,20 +106,6 @@ function onAdd(button) {
     });
 }
 
-function showNotification(from, align, msg) {
-    $.notify({
-        icon: "tim-icons icon-bell-55",
-        message: msg
-    },{
-        type: 'default',
-        delay: 1200,
-        placement: {
-            from: from,
-            align: align
-        }
-    });
-}
-
 function toggleNewModal() {
     $('#myModal').modal();
     $('#datatable2').DataTable().draw();

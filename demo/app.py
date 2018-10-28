@@ -111,6 +111,10 @@ def eval():
 def prognostics():
 	return render_template('prognostics.html')
 
+@app.route('/pmodel_list')
+def pmodel_list():
+	return json.dumps(
+		list(map(lambda x: x.split('.')[0], os.listdir('static/data/pmodel/'))))
 
 if __name__ == "__main__":
 	app.run(host='0.0.0.0', port=9021, debug=True)

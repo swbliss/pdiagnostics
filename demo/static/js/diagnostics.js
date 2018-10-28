@@ -1,20 +1,6 @@
 let dataPrefix = '/static/data/';
 var trainingsets;
 
-function showNotification(from, align, msg) {
-    $.notify({
-        icon: "tim-icons icon-bell-55",
-        message: msg
-    },{
-        type: 'default',
-        delay: 1200,
-        placement: {
-            from: from,
-            align: align
-        }
-    });
-}
-
 function initTrainingsetList() {
     $.ajax({
         url: 'trainingset_list',
