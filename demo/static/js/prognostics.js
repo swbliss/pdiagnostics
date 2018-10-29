@@ -22,14 +22,16 @@ const numberWithCommas = (x) => {
 }
 
 function checkInputGiven(includeBudget) {
-    var inputs = includeBudget ? $('input') : $('input').not('#budget');
-    for (i in inputs) {
-        if ($(inputs[i]).val().length == 0) {
-            showNotification('top', 'right',
-            "Fill in <b>all the blanks</b> required for item optimizer.", "warning")
-            return false;
-        }
-    }
+    //var inputs = includeBudget ? $('input') : $('input').not('#budget');
+    //console.log('test', inputs.length);
+    //for (i in inputs) {
+    //    console.log($(inputs[i]).val());
+    //    if ($(inputs[i]).val().length == 0) {
+    //        showNotification('top', 'right',
+    //        "Fill in <b>all the blanks</b> required for item optimizer.", "warning")
+    //        return false;
+    //    }
+    //}
     return true;
 }
 

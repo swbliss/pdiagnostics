@@ -12,21 +12,26 @@ def test():
 	return render_template('starter.html')
 
 
+############### TAB:timeline ###############
+@app.route('/')
+def timeline():
+	return render_template('dashboard.html')
+
 ############### TAB:imagemanager ###############
 # If to_new is true, it means deleting (ori->new)
 def move_img(filename, to_new):
 	data_dir = os.path.dirname(os.path.realpath(__file__)) + '/static/data/'
-	
+
 	src_dir = 'image_ori/' if to_new else 'image_new/'
 	dst_dir = 'image_new/' if to_new else 'image_ori/'
-	
+
 	img_file = data_dir + src_dir + filename + '.jpg'
 	meta_file = data_dir + src_dir + filename + '.meta.txt'
 
 	if os.path.isfile(img_file):
 		os.rename(img_file, data_dir + dst_dir + filename + '.jpg')
 		os.rename(meta_file, data_dir + dst_dir + filename + '.meta.txt')
-		
+
 		src_list = open(data_dir + src_dir + 'list.txt').readlines()
 		src_list.remove(filename + '\n')
 		with open(data_dir + src_dir + 'list.txt', 'w') as f:
@@ -69,7 +74,7 @@ def trainingset_info():
 				toks.insert(0, f.split('.')[0])
 				res[trainingset].append(toks)
 	return res
-	
+
 @app.route('/trainingsetmanager')
 def trainingset_manager():
 	return render_template('trainingsetmanager.html')
@@ -81,7 +86,7 @@ def trainingset():
 @app.route('/examples', methods=['GET'])
 def examples():
 	prefix = 'static/data/image_ori/'
-	res = [] 
+	res = []
 	for filename in os.listdir(prefix):
 		if filename[-8:] != "meta.txt":
 			continue
@@ -96,7 +101,7 @@ def createset():
 	if len(name) != 0:
 		os.mkdir('static/data/training/' + name)
 	return ''
-	
+
 @app.route('/set_delete_img', methods=['GET', 'POST'])
 def set_delete_img():
 	trainingset = request.args.get('set', '')
