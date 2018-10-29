@@ -106,7 +106,7 @@ function getTrainingset() {
 }
 
 function fillTrainingImages(name) {
-    $('#datatable2').DataTable().clear().draw();
+    $('#datatable2').DataTable().clear();
 
     includedExamples = trainingsets[name];
     if (includedExamples.length == 0) {
