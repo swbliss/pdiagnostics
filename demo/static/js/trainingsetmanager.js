@@ -87,28 +87,6 @@ function getNewExamples(name) {
     }
 }
 
-
-// function addRowWithName(target, name) {
-//     var meta = name + '.meta.txt';
-//
-//     $.ajax({
-//         url: imagePrefix + meta,
-//         success: function(data) {
-//             var m = data.trim().split(',');
-//
-//             let button = "<button type='button' rel='tooltip' \
-//                             data-placement='top' title='' \
-//                             class='btn btn-link btn-icon btn-sm btn-neutral' \
-//                             onClick='imgAdd'> <i class='tim-icons \
-//                             icon-simple-add'></i></button>";
-//
-//             addRow(target, ['<img src="' + imagePrefix + name + '.jpg" style="height:30px">', name,
-//                 m[0], m[1], m[2], m[3], m[4], button])
-//         },
-//     });
-// }
-
-
 function addRow(tableid, data) {
     var t = $('#' + tableid).DataTable();
     t.row.add(data).draw(false);
@@ -209,13 +187,6 @@ function initDatatable() {
         ordering: false,
         "pageLength": 5,
     });
-
-    // indexing
-    // datatable3.on( 'order.dt search.dt', function () {
-    //     datatable3.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-    //         cell.innerHTML = i+1;
-    //     } );
-    // } ).draw();
 }
 
 function changeSet(name) {

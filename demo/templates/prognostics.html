@@ -98,7 +98,7 @@
 	<div class="col-md-12">
 	  <div class="card">
 	    <div class="card-header">
-	        <h4 class="card-title">3. Optimizer Configuration</h4>
+	        <h4 class="card-title">3. Item Optimizer Configuration</h4>
 			<span class="form-text" style="color:#6c757d!important; font-size:.725rem">Write down intended maintenance period and expected user cost for each road state</span>
 		</div>
 	    <div class="card-body">
@@ -177,9 +177,13 @@
 </div>
 
 
+<div id="io-result" class="fadeIn" style="">
 <div class="row">
 	<div class="col-md-12">
 	 <div class="card">
+		<div class="card-header">
+	        <h4 class="card-title">Item Optimize Result</h4>
+		</div>
 		<div class="card-body">
 	   <div id="datatable_wrapper" class="dataTables_wrapper dt-bootstrap4">
 			  <div class="row">
@@ -212,7 +216,7 @@
 	<div class="col-md-12">
 	  <div class="card">
 	    <div class="card-header">
-	        <h4 class="card-title">System Optimizer</h4>
+	        <h4 class="card-title">4. System Optimizer Configuration</h4>
 			<span class="form-text" style="color:#6c757d!important; font-size:.725rem">Write down secured maintenance budget and optimize prognostics system</span>
 		</div>
 		<div class="card-body">
@@ -237,25 +241,27 @@
 
 <div class="row">
 	<div class="col-lg-12" style="margin-bottom: 30px">
-		<button class="btn btn-warning btn-simple btn-round" style="width:100%"> System Optimize</button>
+		<button class="btn btn-warning btn-simple btn-round" style="width:100%" onClick="systemOptimize()"> System Optimize</button>
 	</div>
+</div>
 </div>
 
 
+<div id="so-result" style="">
 <div class="row">
   <div class="col-lg-4">
     <div class="card card-chart">
       <div class="card-header">
         <h5 id="summary-title" class="card-category">Life Cycle Cost - Image Optimizer</h5>
         <h3 class="card-title"><i class="tim-icons icon-coins text-primary"></i>
-			<span id="summary-count" style="font-weight: 500">47,000,000</span> ₩</h3>
+			<span id="summary-io" style="font-weight: 500">0</span> ₩</h3>
       </div>
       <div class="card-body">
 		  <div class="table-full-width table-responsive">
   		  <div id="datatable_wrapper" class="dataTables_wrapper dt-bootstrap4">
   		     <div class="row">
   		  	  <div class="col-sm-12" style='padding-left:30px'>
-  		  		 <table id="datatable" class="table dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="">
+  		  		 <table id="datatable2" class="lcctable table dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="">
   		  			<thead>
   		  			   <tr role="row">
   		  				  <th aria-controls="datatable" rowspan="1" colspan="1" width="15px">#</th>
@@ -279,14 +285,14 @@
       <div class="card-header">
         <h5 id="summary-title" class="card-category">Life Cycle Cost - System Optimizer</h5>
         <h3 class="card-title"><i class="tim-icons icon-coins text-info"></i>
-			<span id="summary-count" style="font-weight: 500">47,000,000</span> ₩</h3>
+			<span id="summary-so" style="font-weight: 500">0</span> ₩</h3>
       </div>
       <div class="card-body">
 		  <div class="table-full-width table-responsive">
   		  <div id="datatable_wrapper" class="dataTables_wrapper dt-bootstrap4">
   		     <div class="row">
   		  	  <div class="col-sm-12" style='padding-left:30px'>
-  		  		 <table id="datatable" class="table dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="">
+  		  		 <table id="datatable3" class="lcctable table dataTable dtr-inline" role="grid" aria-describedby="datatable_info" style="">
   		  			<thead>
   		  			   <tr role="row">
   		  				  <th aria-controls="datatable" rowspan="1" colspan="1" width="15px">#</th>
@@ -308,17 +314,17 @@
   <div class="col-lg-4">
     <div class="card card-chart">
       <div class="card-header">
-        <h5 id="summary-title" class="card-category">trainingset</h5>
+        <h5 id="summary-title" class="card-category">Action Cost Optimization Progree</h5>
         <h3 class="card-title"><i class="tim-icons icon-refresh-01 text-success"></i>
-			<span id="summary-count" style="font-weight: 500">15</span>  Ephoces</h3>
+			<span id="summary-epoch" style="font-weight: 500">0</span>  Ephoces</h3>
       </div>
       <div class="card-body">
-        <div class="chart-area"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
-          <canvas id="label-chart" width="794" height="440" class="chartjs-render-monitor" style="display: block; height: 220px; width: 397px;"></canvas>
-        </div>
+		<div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+		<canvas id="chartLineGreen" width="794" height="440" class="chartjs-render-monitor" style="display: block; height: 240px; width: 397px;"></canvas>
       </div>
     </div>
   </div>
+</div>
 
 </div>
 

@@ -155,5 +155,46 @@ def pmodel_list():
 	return json.dumps(
 		list(map(lambda x: x.split('.')[0], os.listdir('static/data/pmodel/'))))
 
+@app.route('/itemoptimize')
+def itemoptimize():
+	test = [
+		['20171015-DJI-P4P-GSPro-Test-02_D_07', 3, 3, 740,1093.5],
+		['20171015-DJI-P4P-GSPro-Test-02_J_17', 9, 2, 150, 710.6],
+		['20171015-DJI-P4P-GSPro-Test-03_K_17', 7, 1, 660, 1013.6],
+		['20171015-DJI-P4P-GSPro-Test-02_D_07', 3, 3, 740,1093.5],
+		['20171015-DJI-P4P-GSPro-Test-02_D_07', 3, 3, 740,1093.5],
+		['20171015-DJI-P4P-GSPro-Test-02_J_17', 9, 2, 150, 710.6],
+		['20171015-DJI-P4P-GSPro-Test-03_K_17', 7, 1, 660, 1013.6],
+		['20171015-DJI-P4P-GSPro-Test-02_J_17', 9, 2, 150, 710.6],
+		['20171015-DJI-P4P-GSPro-Test-03_K_17', 7, 1, 660, 1013.6],
+	]
+	return json.dumps(test)
+
+@app.route('/systemoptimize')
+def optimized_item():
+	test = [
+		1209,
+		5452.891728,
+		['1930',
+		 '1460',
+		 '990',
+		 '990',
+		 '990',
+		 '990',
+		 '1020',
+		 '1020',
+		 '1020',
+		 '1020',
+		 '1020',
+		 '1020',
+		 '1020',
+		 '1020',
+		 '1020',
+		 '1020',
+		 '1020',
+		]
+	]
+	return json.dumps(test)
+
 if __name__ == "__main__":
 	app.run(host='0.0.0.0', port=9021, debug=True)
