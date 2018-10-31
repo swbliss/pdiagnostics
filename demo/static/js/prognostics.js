@@ -54,7 +54,7 @@ function renderIOInfo(data) {
         let item = data[i]
         addRow('datatable', [1, '<img src="static/data/test/' + item[0] + '.jpg">', item[0],
             item[1], item[2], item[3], item[4]]);
-        addRow('datatable2', [1, item[2], item[3]]);
+        addRow('datatable2', [1, item[2], item[3], item[2], item[3]]);
         lcc_sum += parseInt(item[4]);
     }
     $('#summary-io').text(numberWithCommas(lcc_sum));
@@ -112,7 +112,7 @@ function datatableInit() {
     } ).draw();
 
     lccTableInit('datatable2');
-    lccTableInit('datatable3');
+    // lccTableInit('datatable3');
 }
 
 function lccTableInit(tableid) {
