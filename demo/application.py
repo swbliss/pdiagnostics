@@ -2,6 +2,8 @@ from flask import Flask, render_template, send_from_directory, url_for, request
 import os
 import json
 from shutil import copyfile
+from cbm import cbm
+import rpy2.robjects as robjects
 
 
 #################### GLOBAL ####################
@@ -162,18 +164,23 @@ def pmodel_list():
 
 @app.route('/itemoptimize')
 def itemoptimize():
-	test = [
-		['20171015-DJI-P4P-GSPro-Test-02_D_07', 3, 3, 740,1093.5],
-		['20171015-DJI-P4P-GSPro-Test-02_J_17', 9, 2, 150, 710.6],
-		['20171015-DJI-P4P-GSPro-Test-03_K_17', 7, 1, 660, 1013.6],
-		['20171015-DJI-P4P-GSPro-Test-02_D_07', 3, 3, 740,1093.5],
-		['20171015-DJI-P4P-GSPro-Test-02_D_07', 3, 3, 740,1093.5],
-		['20171015-DJI-P4P-GSPro-Test-02_J_17', 9, 2, 150, 710.6],
-		['20171015-DJI-P4P-GSPro-Test-03_K_17', 7, 1, 660, 1013.6],
-		['20171015-DJI-P4P-GSPro-Test-02_J_17', 9, 2, 150, 710.6],
-		['20171015-DJI-P4P-GSPro-Test-03_K_17', 7, 1, 660, 1013.6],
-	]
-	return json.dumps(test)
+	res = []
+	state = []
+	prefix = 'static/data/test/'
+	for name in os.listdir(prefix):
+		if name[-8:] == "meta.txt":
+			pred = open(prefix + name).readline().strip()
+			state.append(pred)
+			res.append([name.split('.')[0], pred])
+
+	params = getParams()
+	params.append(robjects.FloatVector(state))
+	opt_result = cbm.item_optimizer(params)
+
+	for i, r in enumerate(opt_result[0]):
+		res[i/3].append(r)
+	
+	return json.dumps(res)
 
 @app.route('/systemoptimize')
 def optimized_item():
@@ -200,6 +207,32 @@ def optimized_item():
 		]
 	]
 	return json.dumps(test)
+
+def getParams():
+	p1 = getModel(request.args.get('no_model', ''))
+	p2 = getModel(request.args.get('partial_model', ''))
+	p3 = getModel(request.args.get('reconst_model', ''))
+	
+	agency_cost = robjects.FloatVector([float(request.args.get('no_cost', '')),
+									    float(request.args.get('partial_cost', '')),
+									    float(request.args.get('reconst_cost', ''))])
+
+	t_length = float(request.args.get('period', ''))
+
+	user_cost = []
+	for i in range(1, 11):
+		user_cost.append(float(request.args.get('user_cost' + str(i), '')))
+	user_cost = robjects.FloatVector(user_cost)
+
+	return [user_cost, agency_cost, t_length, p1, p2, p3]
+
+
+def getModel(model):	
+	line = open('static/data/pmodel/{}.txt'.format(model)).readline
+	model =  list(map(lambda x: float(x), 
+					line.strip().split(',')))
+	return robjects.r.matrix(robjects.FloatVector(model), 
+							 nrow=10, ncol=10, byrow=True)
 
 if __name__ == "__main__":
 	app.run(host='0.0.0.0', port=9021, debug=True)
