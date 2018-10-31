@@ -15,7 +15,7 @@ def test():
 ############### TAB:timeline ###############
 @app.route('/')
 def timeline():
-	return render_template('dashboard.html')
+	return render_template('imagemanager.html')
 
 ############### TAB:imagemanager ###############
 # If to_new is true, it means deleting (ori->new)
@@ -130,7 +130,7 @@ def diagnostics():
 
 @app.route('/trainingset_list')
 def trainingset_list():
-	return json.dumps(trainingset_info().keys())
+	return json.dumps(list(trainingset_info().keys()))
 
 @app.route('/train')
 def train():
