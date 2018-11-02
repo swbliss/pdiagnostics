@@ -22,16 +22,23 @@ const numberWithCommas = (x) => {
 }
 
 function checkInputGiven(includeBudget) {
-    //var inputs = includeBudget ? $('input') : $('input').not('#budget');
-    //console.log('test', inputs.length);
-    //for (i in inputs) {
-    //    console.log($(inputs[i]).val());
-    //    if ($(inputs[i]).val().length == 0) {
-    //        showNotification('top', 'right',
-    //        "Fill in <b>all the blanks</b> required for item optimizer.", "warning")
-    //        return false;
-    //    }
-    //}
+    for (i = 1; i < 4; i++) {
+        var title = $($('#pmodel-select' + i.toString()).parent().children()[0]).attr('title')
+        if (title == 'Model Selection') {
+            showNotification('top', 'right',
+            "Fill in <b>all the blanks</b> required for item optimizer.", "warning")
+            return false;
+        }
+    }
+
+    var inputs = includeBudget ? $('input') : $('input').not('#budget');
+    for (i = 0; i < inputs.length; i++) {
+        if ($(inputs[i]).val().length == 0) {
+            showNotification('top', 'right',
+            "Fill in <b>all the blanks</b> required for item optimizer.", "warning")
+            return false;
+        }
+    }
     return true;
 }
 
@@ -41,11 +48,43 @@ function itemOptimize() {
     }
 
     $.ajax({
-        url: 'itemoptimize',
+        url: 'itemoptimize?' + buildParams(),
         success: function(data) {
+            debugger;
             renderIOInfo(JSON.parse(data))
         }
     });
+}
+
+function buildParams() {
+    var params = [
+        'no_model', 'partial_model', 'reconst_model',
+        'no_cost', 'partial_cost', 'reconst_cost', 't_length'];
+    for (i = 1; i < 11; i++) {
+        params.push('user_cost' + i.toString());
+    }
+
+    var vals = []
+
+    vals.push($($('#pmodel-select1').parent().children()[0]).attr('title'));
+    vals.push($($('#pmodel-select2').parent().children()[0]).attr('title'));
+    vals.push($($('#pmodel-select3').parent().children()[0]).attr('title'));
+
+    vals.push($('#no_cost').val());
+    vals.push($('#partial_cost').val());
+    vals.push($('#reconst_cost').val());
+
+    vals.push($("#t_length").val());
+    for (i = 1; i < 11; i++) {
+        vals.push($("#user_cost" + i.toString()).val());
+    }
+
+    var res = '';
+    for (i in params) {
+        res += params[i] + '=' + vals[i] + ((i != params.length - 1) ? '&' : '');
+    }
+
+    return res;
 }
 
 function renderIOInfo(data) {

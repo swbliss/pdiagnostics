@@ -179,7 +179,7 @@ def itemoptimize():
 
 	for i, r in enumerate(opt_result[0]):
 		res[i/3].append(r)
-	
+
 	return json.dumps(res)
 
 @app.route('/systemoptimize')
@@ -212,12 +212,12 @@ def getParams():
 	p1 = getModel(request.args.get('no_model', ''))
 	p2 = getModel(request.args.get('partial_model', ''))
 	p3 = getModel(request.args.get('reconst_model', ''))
-	
+
 	agency_cost = robjects.FloatVector([float(request.args.get('no_cost', '')),
 									    float(request.args.get('partial_cost', '')),
 									    float(request.args.get('reconst_cost', ''))])
 
-	t_length = float(request.args.get('period', ''))
+	t_length = float(request.args.get('t_length', ''))
 
 	user_cost = []
 	for i in range(1, 11):
@@ -227,11 +227,11 @@ def getParams():
 	return [user_cost, agency_cost, t_length, p1, p2, p3]
 
 
-def getModel(model):	
+def getModel(model):
 	line = open('static/data/pmodel/{}.txt'.format(model)).readline
-	model =  list(map(lambda x: float(x), 
+	model =  list(map(lambda x: float(x),
 					line.strip().split(',')))
-	return robjects.r.matrix(robjects.FloatVector(model), 
+	return robjects.r.matrix(robjects.FloatVector(model),
 							 nrow=10, ncol=10, byrow=True)
 
 if __name__ == "__main__":
