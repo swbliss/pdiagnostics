@@ -42,26 +42,15 @@ function checkInputGiven(includeBudget) {
     return true;
 }
 
-function itemOptimize() {
-    if (!checkInputGiven(false)) {
-        return;
-    }
-
-    $.ajax({
-        url: 'itemoptimize?' + buildParams(),
-        success: function(data) {
-            debugger;
-            renderIOInfo(JSON.parse(data))
-        }
-    });
-}
-
-function buildParams() {
+function buildParams(includeBudget) {
     var params = [
         'no_model', 'partial_model', 'reconst_model',
         'no_cost', 'partial_cost', 'reconst_cost', 't_length'];
     for (i = 1; i < 11; i++) {
         params.push('user_cost' + i.toString());
+    }
+    if (includeBudget) {
+        params.push('budget');
     }
 
     var vals = []
@@ -78,6 +67,9 @@ function buildParams() {
     for (i = 1; i < 11; i++) {
         vals.push($("#user_cost" + i.toString()).val());
     }
+    if (includeBudget) {
+        vals.push($('#budget').val());
+    }
 
     var res = '';
     for (i in params) {
@@ -87,7 +79,27 @@ function buildParams() {
     return res;
 }
 
+
+function itemOptimize() {
+    if (!checkInputGiven(false)) {
+        return;
+    }
+
+    $.ajax({
+        url: 'itemoptimize?' + buildParams(false),
+        success: function(data) {
+            showNotification('bottom', 'right',
+            "<b>Item Optimization</b> has been successfully finished.")
+            renderIOInfo(JSON.parse(data))
+        }
+    });
+}
+
+
 function renderIOInfo(data) {
+    $('#datatable').DataTable().clear().draw();
+    $('#datatable2').DataTable().clear().draw();
+
     var lcc_sum = 0;
     for (i in data) {
         let item = data[i]
@@ -101,13 +113,15 @@ function renderIOInfo(data) {
 }
 
 function systemOptimize() {
-    if (!checkInputGiven(false)) {
+    if (!checkInputGiven(true)) {
         return;
     }
 
     $.ajax({
-        url: 'systemoptimize',
+        url: 'systemoptimize?' + buildParams(true),
         success: function(data) {
+            showNotification('bottom', 'right',
+            "<b>System Optimization</b> has been successfully finished.")
             renderSOInfo(JSON.parse(data));
         }
     });
@@ -119,6 +133,12 @@ function renderSOInfo(data) {
 
     var labels = []
     var budgets = []
+
+    $('#datatable3').DataTable().clear().draw();
+    for (i in data) {
+        addRow('datatable3', [1, item[2], item[3], item[2], item[3]]);
+    }
+
     for (i in data[2]) {
         labels.push(i);
         budgets.push($('#budget').val());

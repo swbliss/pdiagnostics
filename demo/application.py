@@ -142,7 +142,7 @@ def train():
 	return ''
 
 @app.route('/eval')
-def eval():
+def evaluation():
 	res = {}
 	prefix = 'static/data/test/'
 	for name in os.listdir(prefix):
@@ -159,8 +159,9 @@ def prognostics():
 
 @app.route('/pmodel_list')
 def pmodel_list():
-	return json.dumps(
-		list(map(lambda x: x.split('.')[0], os.listdir('static/data/pmodel/'))))
+	models = list(map(lambda x: x.split('.')[0], os.listdir('static/data/pmodel/')))
+	models.sort()
+	return json.dumps(models)
 
 @app.route('/itemoptimize')
 def itemoptimize():
@@ -175,10 +176,12 @@ def itemoptimize():
 
 	params = getParams()
 	params.append(robjects.FloatVector(state))
-	opt_result = cbm.item_optimizer(params)
+	opt_result = cbm.item_optimizer(*params)
 
-	for i, r in enumerate(opt_result[0]):
-		res[i/3].append(r)
+	for i in range(int(len(opt_result[0])/3)):
+		res[i].append(opt_result[0][3*i])
+		res[i].append(opt_result[1][3*i])
+		res[i].append('{:.2f}'.format(float(opt_result[2][3*i])))
 
 	return json.dumps(res)
 
@@ -228,8 +231,8 @@ def getParams():
 
 
 def getModel(model):
-	line = open('static/data/pmodel/{}.txt'.format(model)).readline
-	model =  list(map(lambda x: float(x),
+	line = open('static/data/pmodel/{}.txt'.format(model)).readline()
+	model =  list(map(lambda x: float(eval(x)),
 					line.strip().split(',')))
 	return robjects.r.matrix(robjects.FloatVector(model),
 							 nrow=10, ncol=10, byrow=True)
