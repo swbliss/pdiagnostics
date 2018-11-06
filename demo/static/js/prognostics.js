@@ -98,17 +98,14 @@ function itemOptimize() {
 
 function renderIOInfo(data) {
     $('#datatable').DataTable().clear().draw();
-    $('#datatable2').DataTable().clear().draw();
 
     var lcc_sum = 0;
     for (i in data) {
         let item = data[i]
         addRow('datatable', [1, '<img src="static/data/test/' + item[0] + '.jpg">', item[0],
             item[1], item[2], item[3], item[4]]);
-        addRow('datatable2', [1, item[2], item[3], item[2], item[3]]);
         lcc_sum += parseInt(item[4]);
     }
-    $('#summary-io').text(numberWithCommas(lcc_sum));
     $('#io-result').show();
 }
 
@@ -129,15 +126,21 @@ function systemOptimize() {
 }
 
 function renderSOInfo(data) {
+    var lcc_sum_io = 0;
+
+    $('#datatable2').DataTable().clear().draw();
+    for (i in data[0]) {
+        let item = data[0][i];
+        addRow('datatable2', [1, item[0], item[1], item[3], item[4]]);
+        lcc_sum_io += parseInt(item[2])
+    }
+
+    $('#summary-io').text(numberWithCommas(lcc_sum_io));
     $('#summary-so').text(numberWithCommas(parseInt(data[1])));
+    $('#summary-epoch').text(data[2].length);
 
     var labels = []
     var budgets = []
-
-    $('#datatable3').DataTable().clear().draw();
-    for (i in data) {
-        addRow('datatable3', [1, item[2], item[3], item[2], item[3]]);
-    }
 
     for (i in data[2]) {
         labels.push(i);
@@ -171,7 +174,6 @@ function datatableInit() {
     } ).draw();
 
     lccTableInit('datatable2');
-    // lccTableInit('datatable3');
 }
 
 function lccTableInit(tableid) {
@@ -181,13 +183,8 @@ function lccTableInit(tableid) {
         searching: false,
         lengthChange: false,
         paging: false,
+        ordering: false,
         info: false,
-        columnDefs: [
-            { sortable: false, targets: 0 },
-            { sortable: false, targets: 1 },
-            { targets: 2 }
-        ],
-        order: [[ 2, 'desc' ]]
     });
 
     datatable.on( 'order.dt search.dt', function () {

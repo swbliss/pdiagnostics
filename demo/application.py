@@ -3,6 +3,7 @@ import os
 import json
 from shutil import copyfile
 from cbm import cbm
+import numpy as np
 import rpy2.robjects as robjects
 
 
@@ -174,44 +175,33 @@ def itemoptimize():
 			state.append(pred)
 			res.append([name.split('.')[0], pred])
 
-	params = getParams()
-	params.append(robjects.FloatVector(state))
+	params = getParams(False)
 	opt_result = cbm.item_optimizer(*params)
 
 	for i in range(int(len(opt_result[0])/3)):
-		res[i].append(opt_result[0][3*i])
-		res[i].append(opt_result[1][3*i])
-		res[i].append('{:.2f}'.format(float(opt_result[2][3*i])))
+		res[i].append(opt_result[0][i])
+		# get action cost from user's input 
+		# (R code has a bug on this, so do not use return value from R)
+		res[i].append(params[1][int(opt_result[0][i]) - 1])
+		res[i].append('{:.2f}'.format(float(opt_result[2][i])))
 
 	return json.dumps(res)
 
 @app.route('/systemoptimize')
 def optimized_item():
-	test = [
-		1209,
-		5452.891728,
-		['1930',
-		 '1460',
-		 '990',
-		 '990',
-		 '990',
-		 '990',
-		 '1020',
-		 '1020',
-		 '1020',
-		 '1020',
-		 '1020',
-		 '1020',
-		 '1020',
-		 '1020',
-		 '1020',
-		 '1020',
-		 '1020',
-		]
-	]
-	return json.dumps(test)
+	res = [[]]
+	params = getParams(True)
+	opt_result = cbm.system_optimizer(*params)
 
-def getParams():
+	for i in range(int(len(opt_result[0])/3)):
+		res[0].append([opt_result[0][i], params[1][int(opt_result[0][i]) - 1],
+			opt_result[2][i], opt_result[3][i], params[1][int(opt_result[3][i]) - 1]])
+	res.append(np.asarray(opt_result[5]).tolist())	# lc cost sum
+	res.append(np.asarray(opt_result[6]).tolist())	# ACs 
+	
+	return json.dumps(res)
+
+def getParams(includeBudget):
 	p1 = getModel(request.args.get('no_model', ''))
 	p2 = getModel(request.args.get('partial_model', ''))
 	p3 = getModel(request.args.get('reconst_model', ''))
@@ -220,14 +210,27 @@ def getParams():
 									    float(request.args.get('partial_cost', '')),
 									    float(request.args.get('reconst_cost', ''))])
 
-	t_length = float(request.args.get('t_length', ''))
+	t_length = float(request.args.get('t_length', 0))
 
 	user_cost = []
 	for i in range(1, 11):
 		user_cost.append(float(request.args.get('user_cost' + str(i), '')))
 	user_cost = robjects.FloatVector(user_cost)
 
-	return [user_cost, agency_cost, t_length, p1, p2, p3]
+	state = []
+	prefix = 'static/data/test/'
+	for name in os.listdir(prefix):
+		if name[-8:] == "meta.txt":
+			pred = open(prefix + name).readline().strip()
+			state.append(pred)
+	state = robjects.FloatVector(state)
+
+	budget = float(request.args.get('budget', 0))
+
+	if not includeBudget:
+		return [user_cost, agency_cost, t_length, p1, p2, p3, state]
+	else:
+		return [user_cost, agency_cost, t_length, p1, p2, p3, state, budget]
 
 
 def getModel(model):

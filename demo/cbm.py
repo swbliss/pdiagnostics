@@ -436,7 +436,7 @@ system_optimizer <- function(UserCost, AgencyCost, Tlength, P1, P2, P3, state, B
     LCcost <- Sys.Opt.Result[[3]] #The sum of life cycle cost of all roads
     ACs<- Sys.Opt.Result[[4]] ## Plot on the screen
 
-    result <- list(OptActions, OptActionCosts, LCcost, ACs)
+    result <- list(Sol_Action, Sol_AC, Sol_V, OptActions, OptActionCosts, LCcost, ACs)
     return(result)
 }
 """
