@@ -1,0 +1,16 @@
+html {
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: .4em; 
+  height: 0em;
+}
+::-webkit-scrollbar,
+::-webkit-scrollbar-thumb {
+  overflow:visible;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,.2); 
+}

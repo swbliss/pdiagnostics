@@ -102,7 +102,7 @@ function renderIOInfo(data) {
     var lcc_sum = 0;
     for (i in data) {
         let item = data[i]
-        addRow('datatable', [1, '<img src="static/data/test/' + item[0] + '.jpg">', item[0],
+        addRow('datatable', [parseInt(i) + 1, '<img src="static/data/test/' + item[0] + '.jpg">', item[0],
             item[1], item[2], item[3], item[4]]);
         lcc_sum += parseInt(item[4]);
     }
@@ -131,7 +131,7 @@ function renderSOInfo(data) {
     $('#datatable2').DataTable().clear().draw();
     for (i in data[0]) {
         let item = data[0][i];
-        addRow('datatable2', [1, item[0], item[1], item[3], item[4]]);
+        addRow('datatable2', [parseInt(i) + 1, item[0], item[1], item[3], item[4]]);
         lcc_sum_io += parseInt(item[2])
     }
 
@@ -165,6 +165,9 @@ function datatableInit() {
         lengthChange: false,
         ordering: false,
         "pageLength": 5,
+        columnDefs: [
+            { "class": "index", targets: 0 },
+        ],
     });
 
     datatable.on( 'order.dt search.dt', function () {
@@ -185,6 +188,9 @@ function lccTableInit(tableid) {
         paging: false,
         ordering: false,
         info: false,
+        columnDefs: [
+            { "class": "index", targets: 0 },
+        ],
     });
 
     datatable.on( 'order.dt search.dt', function () {
@@ -266,7 +272,7 @@ function chartInit() {
         pointBorderWidth: 20,
         pointHoverRadius: 4,
         pointHoverBorderWidth: 15,
-        pointRadius: 4,
+        pointRadius: 3,
         data: [],
       }, {
         label: "budget",
@@ -282,6 +288,7 @@ function chartInit() {
         pointBorderWidth: 20,
         pointHoverRadius: 4,
         pointHoverBorderWidth: 15,
+        pointRadius: 3,
         data: [],
       }]
     };
