@@ -97,15 +97,15 @@ Item_opt_Base <- function(numM,numS,state, Tlength,P1,P2,P3, UserCost, AgencyCos
 
   state<-10-state+1
   Sol$Action[1]<-mu[state,1]
-  Sol$AC[1]<-AC[state,1]
+  Sol$AC[1] <- AgencyCost[as.numeric(Sol$Action[1])]
   Sol$V[1]<-V[state,1]
 
   Sol$Action[2]<-mu1[state,1]
-  Sol$AC[2]<-AC1[state,1]
+  Sol$AC[2] <- AgencyCost[as.numeric(Sol$Action[2])]
   Sol$V[2]<-V1[state,1]
 
   Sol$Action[3]<-mu2[state,1]
-  Sol$AC[3]<-AC2[state,1]
+  Sol$AC[3] <- AgencyCost[as.numeric(Sol$Action[3])]
   Sol$V[3]<-V2[state,1]
 
   # return item-level optimal result
@@ -243,7 +243,7 @@ Sys_Opt <- function(Budget,Sol.AC, Sol.Action, Sol.V){
     px<-NEA.FindBest(y,px,Budget, Sol.V, Sol.AC)
     TEC<-NEA.Eval(px, Budget, Sol.V, Sol.AC)
     AC<-NEA.EvalAC(px, Sol.AC)
-    cat("\r CBM>> Iteration [",m,"]: TEC=",TEC, "AC/Budget=",AC, "/", Budget, "   ")
+    # cat("\r CBM>> Iteration [",m,"]: TEC=",TEC, "AC/Budget=",AC, "/", Budget, "   ")
     # enlarge the search space
     if (TEC==prevTEC){
       sdev<-sdev0*(1.01^NoOpt)
@@ -424,6 +424,12 @@ system_optimizer <- function(UserCost, AgencyCost, Tlength, P1, P2, P3, state, B
     Sol_AC <- io_result[[2]]
     Sol_V <- io_result[[3]]
 
+    cat("\n CBM>> budget:", Budget)
+    cat("\n CBM>> Sol_action:", Sol_Action)
+    cat("\n CBM>> Sol_AC:", Sol_AC)
+    cat("\n CBM>> Sol_V:", Sol_V)
+
+
     OptActions_return <- double()
 
     Sys.Opt.Result <- Sys_Opt(Budget,Sol_AC,Sol_Action,Sol_V)
@@ -436,7 +442,7 @@ system_optimizer <- function(UserCost, AgencyCost, Tlength, P1, P2, P3, state, B
     LCcost <- Sys.Opt.Result[[3]] #The sum of life cycle cost of all roads
     ACs<- Sys.Opt.Result[[4]] ## Plot on the screen
 
-    result <- list(Sol_Action, Sol_AC, Sol_V, OptActions, OptActionCosts, LCcost, ACs)
+    result <- list(Sol_Action, Sol_AC, Sol_V, OptActions_return, OptActionCosts, LCcost, ACs)
     return(result)
 }
 """
