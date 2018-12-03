@@ -46,6 +46,7 @@ function startEval() {
     $.ajax({
         url: 'eval',
         success: function(data) {
+	    console.log(data);
             var result = JSON.parse(data);
             var imgs = Object.keys(result);
             for (i in imgs) {
@@ -83,7 +84,7 @@ function evalResultCard(name, pred) {
 	        <li class="list-group-item">130 emails</li>\
 	        <li class="list-group-item">24/7 Support</li>\
 	      </ul>\
-		  <img src="static/data/test/' + name + '.jpg">\
+		  <img src="static/data/test/whole-trainingset/' + name + '.jpg">\
 	      <div class="card-prices">\
 	        <h3 class="text-on-front">\
 	          <span>STATE</span> ' + pred + '</h3>\

@@ -127,6 +127,8 @@ def set_add_img():
 
 
 ########### TAB:diagnostics #############
+targetset = 'whole-trainingset'
+
 @app.route('/diagnostics')
 def diagnostics():
 	return render_template('diagnostics.html')
@@ -137,15 +139,14 @@ def trainingset_list():
 
 @app.route('/train')
 def train():
-	# TODO: run the real model
-	trainingset = request.args.get('set', '')
-	print(trainingset)
+	global targetset
+	targetset = request.args.get('set', '')
 	return ''
 
 @app.route('/eval')
 def evaluation():
 	res = {}
-	prefix = 'static/data/test/'
+	prefix = 'static/data/test/{}/'.format(targetset)
 	for name in os.listdir(prefix):
 		if name[-8:] == "meta.txt":
 			pred = open(prefix + name).readline().strip()
@@ -168,7 +169,7 @@ def pmodel_list():
 def itemoptimize():
 	res = []
 	state = []
-	prefix = 'static/data/test/'
+	prefix = 'static/data/test/{}/'.format(targetset)
 	for name in os.listdir(prefix):
 		if name[-8:] == "meta.txt":
 			pred = open(prefix + name).readline().strip()
@@ -218,7 +219,7 @@ def getParams(includeBudget):
 	user_cost = robjects.FloatVector(user_cost)
 
 	state = []
-	prefix = 'static/data/test/'
+	prefix = 'static/data/test/{}/'.format(targetset)
 	for name in os.listdir(prefix):
 		if name[-8:] == "meta.txt":
 			pred = open(prefix + name).readline().strip()

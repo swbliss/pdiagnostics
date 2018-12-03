@@ -102,7 +102,7 @@ function renderIOInfo(data) {
     var lcc_sum = 0;
     for (i in data) {
         let item = data[i]
-        addRow('datatable', [parseInt(i) + 1, '<img src="static/data/test/' + item[0] + '.jpg">', item[0],
+        addRow('datatable', [parseInt(i) + 1, '<img src="static/data/test/test_jpgs/' + item[0] + '.jpg">', item[0],
             item[1], item[2], item[3], item[4]]);
         lcc_sum += parseInt(item[4]);
     }
